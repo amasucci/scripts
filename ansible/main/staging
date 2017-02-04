@@ -1,0 +1,2 @@
+[agents]
+192.168.1.10    ansible_connection=ssh  ansible_user=admin

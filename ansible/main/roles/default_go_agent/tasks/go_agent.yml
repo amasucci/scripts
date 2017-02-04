@@ -1,0 +1,38 @@
+---
+- name: Add GoCD YUM Repository
+  yum_repository:
+    name: gocd
+    description: GoCD YUM Repository
+    file: gocd
+    baseurl: https://download.gocd.io
+    gpgkey: https://download.gocd.io/GOCD-GPG-KEY.asc
+    gpgcheck: yes
+    enabled: yes
+    state: present    
+  become_method: sudo
+  become: True
+  tags: go_agent
+
+- name: Install GoCD Agent
+  yum: name=go-agent state="latest"
+  become_method: sudo
+  become: True
+  tags: go_agent
+
+- name: Configure GoCD Agent
+  lineinfile:
+    dest: /etc/default/go-agent
+    regexp: '^GO_SERVER_URL='
+    line: 'GO_SERVER_URL=https://{{ go_server_address }}:{{ go_server_port }}/go'
+  become_method: sudo
+  become: True
+  tags: go_agent
+
+- name: Start GoCD Agent
+  command: /etc/init.d/go-agent start
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become_user: go
+  become: true
+  tags: go_agent

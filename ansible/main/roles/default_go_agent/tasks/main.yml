@@ -1,0 +1,10 @@
+---
+
+- name: Docker setup
+  include: docker.yml
+- name: run bash script
+  include: scripts.yml
+- name: Java setup
+  include: java.yml
+- name: GoCD agent setup
+  include: go_agent.yml

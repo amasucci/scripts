@@ -1,0 +1,13 @@
+---
+
+- name: copy bash script
+  copy:
+    src: example.sh
+    dest: "~/example.sh"
+    mode: 0744
+
+
+- name: run example
+  shell: "sh ~/example.sh > res.out"
+  register: result
+  failed_when: 'result.rc != 0'
