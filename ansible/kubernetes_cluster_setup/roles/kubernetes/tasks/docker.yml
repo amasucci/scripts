@@ -1,0 +1,12 @@
+---
+- name: Install Docker
+  yum: name=docker state="{{docker_version}}"
+  become_method: sudo
+  become: True
+  tags: docker
+
+- name: Make sure Docker is running
+  service: name=docker state=running
+  become_method: sudo
+  become: True
+  tags: docker

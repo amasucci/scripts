@@ -1,0 +1,11 @@
+---
+- name: Install kubernetes commands
+  yum: name={{ item }}
+  become_method: sudo
+  become: True
+  with_items:
+    - kubelet 
+    - kubeadm 
+    - kubectl 
+    - kubernetes-cni
+  tags: kubernetes_all

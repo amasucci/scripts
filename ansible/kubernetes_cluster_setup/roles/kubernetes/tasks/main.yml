@@ -1,0 +1,12 @@
+---
+
+- name: Docker setup
+  include: docker.yml
+- name: Add you repository for Kubernetes 
+  include: add_yum_repos.yml
+- name: Install Kubernetes coomands
+  include: install_kubernetes_commands.yml
+- name: Enable Services
+  include: enable_services.yml
+- name: Run master spcific commands
+  include: master_specific.yml

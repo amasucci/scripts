@@ -1,0 +1,14 @@
+---
+- name: run kubeadm init
+  shell: "kubeadm init"
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become: True
+  when: inventory_hostname in groups['master']
+
+- debug: msg="{{ result.stdout_lines }}"
+  when: inventory_hostname in groups['master']
+- debug: var="{{ result.stdout_lines }}"
+  when: inventory_hostname in groups['master']
+#grep "\[tokens\] Generated token: \"" | awk -F'\"' '{print $2}'

@@ -1,0 +1,10 @@
+---
+- systemd: 
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items: 
+    - docker 
+    - kubelet
+  become_method: sudo
+  become: True
