@@ -9,3 +9,10 @@
     - kubectl 
     - kubernetes-cni
   tags: kubernetes_all
+
+- name: Ensure selinux is in permissive mode
+  command: setenforce permissive
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become: True

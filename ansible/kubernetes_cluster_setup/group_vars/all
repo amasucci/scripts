@@ -1,1 +1,2 @@
 docker_version: "latest"
+kubeadm_token: "3c024a.fc2ab507eca6fe0e"

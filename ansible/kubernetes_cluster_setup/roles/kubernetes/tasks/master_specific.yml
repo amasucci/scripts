@@ -1,6 +1,15 @@
 ---
+
+- name: run kubeadm reset
+  shell: "kubeadm reset"
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become: True
+  when: inventory_hostname in groups['master']
+
 - name: run kubeadm init
-  shell: "kubeadm init"
+  shell: "kubeadm init --token {{ kubeadm_token }}"
   register: result
   failed_when: 'result.rc != 0'
   become_method: sudo
