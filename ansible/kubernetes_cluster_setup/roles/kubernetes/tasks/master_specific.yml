@@ -6,10 +6,9 @@
   failed_when: 'result.rc != 0'
   become_method: sudo
   become: True
-  when: inventory_hostname in groups['master']
 
-- name: run kubeadm init
-  shell: "kubeadm init --token {{ kubeadm_token }}"
+- name: run kubeadm init master
+  shell: "kubeadm init --token {{ kubeadm_token }} --api-advertise-addresses={{master_address}}"
   register: result
   failed_when: 'result.rc != 0'
   become_method: sudo
@@ -18,6 +17,36 @@
 
 - debug: msg="{{ result.stdout_lines }}"
   when: inventory_hostname in groups['master']
-- debug: var="{{ result.stdout_lines }}"
+
+- name: copy kube-flannel.yml 
+  copy:
+    src: kube-flannel.yml
+    dest: "/tmp/kube-flannel.yml"
+    mode: 0744
   when: inventory_hostname in groups['master']
-#grep "\[tokens\] Generated token: \"" | awk -F'\"' '{print $2}'
+
+- name: Install a pod network
+  shell: "kubectl apply -f /tmp/kube-flannel.yml --validate=false"
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become: True
+  when: inventory_hostname in groups['master']
+
+
+- name: create dashboard
+  shell: "kubectl create -f https://rawgit.com/kubernetes/dashboard/master/src/deploy/kubernetes-dashboard.yaml"
+  register: result
+  failed_when: 'result.rc != 0'
+  become_method: sudo
+  become: True
+  when: inventory_hostname in groups['master']
+
+#- name: kubectl proxy
+#  shell: "kubectl proxy"
+#  register: result
+#  failed_when: 'result.rc != 0'
+#  become_method: sudo
+#  become: True
+#  when: inventory_hostname in groups['master']
+  

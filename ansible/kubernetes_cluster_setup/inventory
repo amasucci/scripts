@@ -1,5 +1,5 @@
 [master]
-192.168.1.11    ansible_connection=ssh  ansible_user=admin
+192.168.1.11    ansible_connection=ssh  ansible_user=admin master_address=192.168.1.11
 
-[slaves]
-192.168.1.12    ansible_connection=ssh  ansible_user=admin
+[minions]
+192.168.1.12    ansible_connection=ssh  ansible_user=admin master_address=192.168.1.11

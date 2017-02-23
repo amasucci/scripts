@@ -8,5 +8,7 @@
   include: install_kubernetes_commands.yml
 - name: Enable Services
   include: enable_services.yml
-- name: Run master spcific commands
+- name: Run master specific commands
   include: master_specific.yml
+- name: Run minion specific commands
+  include: minion_specific.yml

@@ -1,0 +1,13 @@
+---
+
+- name: run kubeadm init minion
+  shell: "kubeadm join --token={{kubeadm_token}} {{master_address}}"
+  register: result
+  failed_when: 'result.rc != 1'
+  become_method: sudo
+  become: True
+  when: inventory_hostname in groups['minions']
+
+
+- debug: msg="{{ result.stdout_lines }}"
+  when: inventory_hostname in groups['minions']
